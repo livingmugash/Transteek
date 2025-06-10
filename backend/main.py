@@ -1,54 +1,68 @@
-# backend/main.py
-
-import asyncio
-import websockets
-import os
+from fastapi import FastAPI, WebSocket, Depends, HTTPException, status
+from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-from translator_agent import RealTimeTranslator
+import auth
+import models
+from webrtc_service import CallSession
+import json
 
-# Load environment variables from .env file for local development
 load_dotenv()
 
-async def connection_handler(websocket, path):
-    """
-    Main WebSocket handler. It creates a RealTimeTranslator instance for each
-    new connection and starts the translation process.
-    """
-    print("Client connected.")
-    try:
-        # The first message from the client is the configuration string
-        config_message = await websocket.recv()
-        source_lang, target_lang = config_message.split(',')
-        
-        # Create a translator agent for this specific connection
-        translator = RealTimeTranslator(websocket, source_lang, target_lang)
-        await translator.start()
+app = FastAPI()
 
-    except websockets.exceptions.ConnectionClosed as e:
-        print(f"Connection closed gracefully: {e. B}")
-    except Exception as e:
-        print(f"An unexpected error occurred: {e}")
-    finally:
-        print("Client disconnected.")
+# CORS Middleware to allow Vercel frontend to connect
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"], # In production, change to your Vercel URL
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-async def main():
-    """Starts the WebSocket server."""
-    # Ensure the GOOGLE_APPLICATION_CREDENTIALS environment variable is set
-    if "GOOGLE_APPLICATION_CREDENTIALS" not in os.environ:
-        raise EnvironmentError(
-            "GOOGLE_APPLICATION_CREDENTIALS not set. "
-            "Please check your .env file or server configuration."
+@app.post("/signup", response_model=models.UserLogin)
+def signup(user: models.UserCreate):
+    new_user = auth.create_user(user.email, user.password)
+    if not new_user:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Email already registered or database error."
         )
+    return {"email": new_user['email']}
 
-    host = "0.0.0.0"  # Listen on all available network interfaces
-    port = int(os.environ.get("PORT", 8765)) # Use PORT from env, default to 8765
+@app.post("/login", response_model=models.Token)
+def login(form_data: models.UserLogin):
+    user = auth.authenticate_user(form_data.email, form_data.password)
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect email or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    access_token = auth.create_access_token(data={"sub": user["email"]})
+    return {"access_token": access_token, "token_type": "bearer"}
 
-    print(f"Starting Transteek WebSocket server on ws://{host}:{port}")
-    async with websockets.serve(connection_handler, host, port):
-        await asyncio.Future()  # Run forever
-
-if __name__ == "__main__":
+# WebSocket endpoint for the call
+@app.websocket("/call")
+async def call_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    session = CallSession()
+    
     try:
-        asyncio.run(main())
-    except KeyboardInterrupt:
-        print("Server shutting down.")
+        # The first message from the client is the WebRTC offer
+        message = await websocket.receive_text()
+        data = json.loads(message)
+
+        if data['type'] == 'offer':
+            response = await session.handle_offer(data['sdp'], data['type'])
+            await websocket.send_json(response)
+        
+        # Keep the connection alive to handle ICE candidates, etc.
+        # A production app would have more robust signaling here.
+        while True:
+            await websocket.receive_text() # Keep alive
+
+    except Exception as e:
+        print(f"Error in call endpoint: {e}")
+    finally:
+        print("Closing call session.")
+        await session.close()
