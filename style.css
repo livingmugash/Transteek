@@ -134,3 +134,69 @@ nav {
 #mic-button.is-active {
     background-color: #e74c3c;
 }
+
+
+
+
+
+/* Additions for Auth and Call Views */
+#app-container {
+    max-width: 500px;
+    margin: 5rem auto;
+    padding: 2rem;
+    background-color: var(--secondary-color);
+    border-radius: 8px;
+    text-align: center;
+}
+
+.hidden {
+    display: none;
+}
+
+#auth-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+#auth-form-container input {
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+#auth-form-container button {
+    padding: 0.8rem;
+    background-color: var(--highlight-color);
+    color: var(--text-color);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s;
+}
+
+#auth-form-container button:hover {
+    background-color: var(--accent-color);
+}
+
+.toggle-form {
+    color: var(--highlight-color);
+    cursor: pointer;
+    text-decoration: underline;
+    margin-top: 1rem;
+    display: block;
+}
+
+#call-status {
+    font-weight: bold;
+    color: #f39c12;
+}
+
+.call-controls button {
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    margin-top: 1rem;
+}
