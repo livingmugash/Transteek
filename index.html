@@ -23,13 +23,21 @@
                 <source src="assets/background-video.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-            <div class="hero-content">
+               <div class="hero-content">
                 <h1>Break Down Language Barriers, Instantly.</h1>
                 <p>Experience seamless, real-time voice translation during your calls and meetings.</p>
                 <a href="#login" class="button-primary">Get Started for Free</a>
             </div>
+            <div id="app-container">
+                <div id="auth-view">
+                    <h1>Welcome to Transteek</h1>
+                    <p>Login or create an account to start translating your calls.</p>
+                    <div id="auth-form-container">  
+                    </div>
+                </div>
         </section>
 
+             
         <section id="login" class="form-section">
             <h2>Access Your Account</h2>
             <div class="form-container">
@@ -51,9 +59,16 @@
                     <h3>Translated (Target):</h3>
                     <p id="target-text"></p>
                 </div>
-             </div>
+                 <div id="call-view" class="hidden">
+                     <h2>Start a Translated Call</h2>
+                     <p>Your audio will be connected to our service for translation.</p>
+                     <div class="call-controls">
+                         <p>Status: <span id="call-status">Idle</span></p>
+                         <button id="start-call-btn">Start Call</button>
+                         <button id="end-call-btn" class="hidden">End Call</button>
+                     </div>
+                 </div>
         </section>
-
     </main>
     
     <footer>
