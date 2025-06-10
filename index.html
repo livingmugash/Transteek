@@ -7,24 +7,59 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div id="app-container">
-        <div id="auth-view">
-            <h1>Welcome to Transteek</h1>
-            <p>Login or create an account to start translating your calls.</p>
-            <div id="auth-form-container">
-                </div>
-        </div>
-
-        <div id="call-view" class="hidden">
-            <h2>Start a Translated Call</h2>
-            <p>Your audio will be connected to our service for translation.</p>
-            <div class="call-controls">
-                <p>Status: <span id="call-status">Idle</span></p>
-                <button id="start-call-btn">Start Call</button>
-                <button id="end-call-btn" class="hidden">End Call</button>
+    <header>
+        <nav>
+            <div class="logo">Transteek</div>
+            <div class="nav-links">
+                <a href="#features">Features</a>
+                <a href="#login" class="button">Login / Sign Up</a>
             </div>
-        </div>
-    </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="hero">
+            <video autoplay muted loop id="background-video">
+                <source src="assets/background-video.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            <div class="hero-content">
+                <h1>Break Down Language Barriers, Instantly.</h1>
+                <p>Experience seamless, real-time voice translation during your calls and meetings.</p>
+                <a href="#login" class="button-primary">Get Started for Free</a>
+            </div>
+        </section>
+
+        <section id="login" class="form-section">
+            <h2>Access Your Account</h2>
+            <div class="form-container">
+                </div>
+        </section>
+
+        <section id="translator" class="hidden">
+             <h2>Translation in Progress</h2>
+             <div class="translator-ui">
+                <p>Status: <span id="status-message">Connecting...</span></p>
+                <div class="mic-container">
+                    <button id="mic-button">Start Speaking</button>
+                </div>
+                <div class="transcription-box">
+                    <h3>You said (Source):</h3>
+                    <p id="source-text"></p>
+                </div>
+                <div class="translation-box">
+                    <h3>Translated (Target):</h3>
+                    <p id="target-text"></p>
+                </div>
+             </div>
+        </section>
+
+    </main>
+    
+    <footer>
+        <p>&copy; 2025 Transteek. All rights reserved.</p>
+    </footer>
+
     <script src="app.js"></script>
 </body>
 </html>
