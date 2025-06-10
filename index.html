@@ -3,76 +3,162 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transteek - Real-Time Voice Translation</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Transteek - Real-Time AI Voice Translator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css"> <link rel="icon" href="assets/favicon.ico" type="image/x-icon"> <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0A2647',    /* Deep Blue */
+                        secondary: '#144272',  /* Lighter Blue */
+                        accent: '#205295',     /* Accent Blue */
+                        highlight: '#2C74B3',  /* Highlight Blue */
+                        text: '#FFFFFF',       /* White */
+                        success: '#28a745',    /* Green for success */
+                        error: '#dc3545',      /* Red for error */
+                        warning: '#ffc107',    /* Yellow for warning */
+                    },
+                    fontFamily: {
+                        sans: ['Roboto', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <header>
-        <nav>
-            <div class="logo">Transteek</div>
-            <div class="nav-links">
-                <a href="#features">Features</a>
-                <a href="#login" class="button">Login / Sign Up</a>
+<body class="font-sans bg-primary text-text leading-relaxed antialiased">
+
+    <header class="fixed top-0 left-0 w-full z-50 bg-primary bg-opacity-80 backdrop-blur-md py-4 px-6 md:px-12 shadow-lg">
+        <nav class="flex items-center justify-between max-w-7xl mx-auto">
+            <div class="text-2xl font-bold text-highlight">Transteek</div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a href="#features" class="text-text hover:text-highlight transition duration-300">Features</a>
+                <a href="#how-it-works" class="text-text hover:text-highlight transition duration-300">How it Works</a>
+                <a href="#auth-section" class="bg-accent px-6 py-2 rounded-full hover:bg-highlight transition duration-300 shadow-md">Get Started</a>
             </div>
+            <button id="mobile-menu-button" class="md:hidden text-text focus:outline-none">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+            </button>
         </nav>
+        <div id="mobile-menu" class="hidden md:hidden mt-4 space-y-4">
+            <a href="#features" class="block text-text hover:text-highlight transition duration-300 px-4 py-2">Features</a>
+            <a href="#how-it-works" class="block text-text hover:text-highlight transition duration-300 px-4 py-2">How it Works</a>
+            <a href="#auth-section" class="block bg-accent px-4 py-2 rounded-full text-center hover:bg-highlight transition duration-300 shadow-md">Get Started</a>
+        </div>
     </header>
 
     <main>
-        <section id="hero">
-            <video autoplay muted loop id="background-video">
+        <section id="hero" class="relative h-screen flex items-center justify-center text-center overflow-hidden pt-16">
+            <video autoplay muted loop id="background-video" class="absolute top-1/2 left-1/2 min-w-full min-h-full w-auto h-auto -translate-x-1/2 -translate-y-1/2 z-0 opacity-30 object-cover">
                 <source src="assets/background-video.mp4" type="video/mp4">
                 Your browser does not support the video tag.
             </video>
-               <div class="hero-content">
-                <h1>Break Down Language Barriers, Instantly.</h1>
-                <p>Experience seamless, real-time voice translation during your calls and meetings.</p>
-                <a href="#login" class="button-primary">Get Started for Free</a>
+            <div class="relative z-10 p-6 max-w-4xl mx-auto">
+                <h1 class="text-4xl md:text-6xl font-bold mb-4 leading-tight">Break Down Language Barriers, Instantly.</h1>
+                <p class="text-lg md:text-xl mb-8">Experience seamless, real-time voice translation during your calls and meetings. Connect globally, communicate freely.</p>
+                <a href="#auth-section" class="bg-highlight text-text px-8 py-4 rounded-full text-xl font-semibold hover:bg-secondary transition duration-300 shadow-lg inline-block">Get Started for Free</a>
             </div>
-            <div id="app-container">
-                <div id="auth-view">
-                    <h1>Welcome to Transteek</h1>
-                    <p>Login or create an account to start translating your calls.</p>
-                    <div id="auth-form-container">  
+        </section>
+
+        <section id="features" class="py-16 md:py-24 bg-secondary">
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12">Why Choose Transteek?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+                    <div class="bg-primary p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-highlight text-5xl mb-4">
+                            <svg class="mx-auto" fill="currentColor" viewBox="0 0 24 24" width="em" height="em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Real-time Translation</h3>
+                        <p class="text-lg text-gray-300">Translate spoken words on-the-fly with imperceptible latency. Keep conversations flowing naturally.</p>
+                    </div>
+                    <div class="bg-primary p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-highlight text-5xl mb-4">
+                            <svg class="mx-auto" fill="currentColor" viewBox="0 0 24 24" width="em" height="em" xmlns="http://www.w3.org/2000/svg"><path d="M20 5v14c0 1.1-.9 2-2 2H6c-1.1 0-2-.9-2-2V5c0-1.1.9-2 2-2h12c1.1 0 2 .9 2 2zm-2 0H6v14h12V5zm-2 6H8v2h8v-2z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Seamless Integration</h3>
+                        <p class="text-lg text-gray-300">Integrates with your phone/video calls, replacing the original voice with the translated audio instantly.</p>
+                    </div>
+                    <div class="bg-primary p-8 rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-highlight text-5xl mb-4">
+                            <svg class="mx-auto" fill="currentColor" viewBox="0 0 24 24" width="em" height="em" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.83-7-7.93s3.05-7.44 7-7.93V4c-4.97.49-9 4.62-9 11 0 5.37 4.33 9.71 9.69 9.93L11 20.93zM13 4.07V20c4.95-.49 9-4.62 9-11s-4.05-9.51-9-9.93z"/></svg>
+                        </div>
+                        <h3 class="text-2xl font-semibold mb-4">Global Communication</h3>
+                        <p class="text-lg text-gray-300">Eliminate language barriers and foster global connections for personal and professional interactions.</p>
                     </div>
                 </div>
+            </div>
         </section>
 
-             
-        <section id="login" class="form-section">
-            <h2>Access Your Account</h2>
-            <div class="form-container">
+        <section id="how-it-works" class="py-16 md:py-24 bg-primary">
+            <div class="max-w-6xl mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-12">How Transteek Works</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-10 items-center">
+                    <div class="flex flex-col items-center p-6 bg-secondary rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-highlight text-5xl mb-4 font-bold">1</div>
+                        <h3 class="text-2xl font-semibold mb-3">Speak Naturally</h3>
+                        <p class="text-lg text-gray-300">You speak in your native language during a call.</p>
+                    </div>
+                    <div class="hidden md:block text-5xl text-highlight">
+                        <svg class="mx-auto" fill="currentColor" viewBox="0 0 24 24" width="em" height="em" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-secondary rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-highlight text-5xl mb-4 font-bold">2</div>
+                        <h3 class="text-2xl font-semibold mb-3">Instant Translation</h3>
+                        <p class="text-lg text-gray-300">Our AI instantly transcribes, translates, and synthesizes your speech.</p>
+                    </div>
+                    <div class="hidden md:block text-5xl text-highlight">
+                        <svg class="mx-auto" fill="currentColor" viewBox="0 0 24 24" width="em" height="em" xmlns="http://www.w3.org/2000/svg"><path d="M12 4l-1.41 1.41L16.17 11H4v2h12.17l-5.58 5.59L12 20l8-8z"/></svg>
+                    </div>
+                    <div class="flex flex-col items-center p-6 bg-secondary rounded-lg shadow-xl transform hover:scale-105 transition duration-300">
+                        <div class="text-highlight text-5xl mb-4 font-bold">3</div>
+                        <h3 class="text-2xl font-semibold mb-3">Listener Hears</h3>
+                        <p class="text-lg text-gray-300">The listener hears your words instantly in their language.</p>
+                    </div>
                 </div>
+            </div>
         </section>
 
-        <section id="translator" class="hidden">
-             <h2>Translation in Progress</h2>
-             <div class="translator-ui">
-                <p>Status: <span id="status-message">Connecting...</span></p>
-                <div class="mic-container">
-                    <button id="mic-button">Start Speaking</button>
+        <section id="auth-section" class="py-16 md:py-24 bg-primary min-h-screen flex items-center justify-center">
+            <div id="app-container" class="max-w-md w-full mx-auto p-8 bg-secondary rounded-lg shadow-2xl text-center">
+                <div id="auth-view">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Welcome to Transteek</h2>
+                    <p class="text-lg mb-8">Login or create an account to start translating your calls.</p>
+                    <div id="auth-form-container">
+                        </div>
                 </div>
-                <div class="transcription-box">
-                    <h3>You said (Source):</h3>
-                    <p id="source-text"></p>
+
+                <div id="call-view" class="hidden">
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Start a Translated Conversation</h2>
+                    <p class="text-lg mb-8">Your audio will be processed by our real-time translation agent.</p>
+                    <div class="call-controls space-y-4">
+                        <p class="text-xl">Status: <span id="call-status" class="font-bold text-warning">Idle</span></p>
+                        <button id="start-call-btn" class="w-full bg-highlight text-text px-8 py-4 rounded-full text-xl font-semibold hover:bg-accent transition duration-300 shadow-lg">Start Call</button>
+                        <button id="end-call-btn" class="hidden w-full bg-error text-text px-8 py-4 rounded-full text-xl font-semibold hover:bg-red-700 transition duration-300 shadow-lg">End Call</button>
+                    </div>
+
+                    <div class="mt-10 p-6 bg-primary rounded-lg text-left shadow-inner">
+                        <h3 class="text-xl font-semibold mb-3 border-b border-gray-600 pb-2">You said (Source):</h3>
+                        <p id="source-text" class="text-gray-300 min-h-[4rem] overflow-auto"></p>
+
+                        <h3 class="text-xl font-semibold mt-6 mb-3 border-b border-gray-600 pb-2">Translated (Target):</h3>
+                        <p id="target-text" class="text-gray-300 min-h-[4rem] overflow-auto"></p>
+                    </div>
                 </div>
-                <div class="translation-box">
-                    <h3>Translated (Target):</h3>
-                    <p id="target-text"></p>
-                </div>
-                 <div id="call-view" class="hidden">
-                     <h2>Start a Translated Call</h2>
-                     <p>Your audio will be connected to our service for translation.</p>
-                     <div class="call-controls">
-                         <p>Status: <span id="call-status">Idle</span></p>
-                         <button id="start-call-btn">Start Call</button>
-                         <button id="end-call-btn" class="hidden">End Call</button>
-                     </div>
-                 </div>
+            </div>
         </section>
     </main>
-    
-    <footer>
-        <p>&copy; 2025 Transteek. All rights reserved.</p>
+
+    <footer class="bg-secondary py-8 px-6 text-center">
+        <div class="max-w-7xl mx-auto">
+            <p class="text-gray-400 text-sm">&copy; 2025 Transteek. All rights reserved.</p>
+            <div class="flex justify-center space-x-6 mt-4">
+                <a href="#" class="text-gray-400 hover:text-highlight transition duration-300 text-sm">Privacy Policy</a>
+                <a href="#" class="text-gray-400 hover:text-highlight transition duration-300 text-sm">Terms of Service</a>
+                <a href="#" class="text-gray-400 hover:text-highlight transition duration-300 text-sm">Contact Us</a>
+            </div>
+        </div>
     </footer>
 
     <script src="app.js"></script>
